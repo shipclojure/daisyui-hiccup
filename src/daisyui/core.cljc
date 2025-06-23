@@ -155,7 +155,7 @@
   (let [rest (dissoc attrs :class ::size ::color ::variant ::disabled? ::required?)
         classes (input-classes attrs)]
     [:input (cond-> (assoc rest :class classes)
-                (::disabled? attrs) (assoc :disabled true))]))
+              (::disabled? attrs) (assoc :disabled true))]))
 
 ;; Dropdown
 
@@ -245,3 +245,64 @@
   [props children]
   [:summary props
    children])
+
+;; Mask
+
+(def mask-shape->cls
+  {::squircle :mask-squircle
+   ::heart :mask-heart
+   ::hexagon :mask-hexagon
+   ::hexagon-2 :mask-hexagon-2
+   ::decagon :mask-decagon
+   ::pentagon :mask-pentagon
+   ::diamond :mask-diamond
+   ::square :mask-square
+   ::circle :mask-circle
+   ::star :mask-star
+   ::star-2 :mask-star-2
+   ::triangle :mask-triangle
+   ::triangle-2 :mask-triangle-2
+   ::triangle-3 :mask-triangle-3
+   ::triangle-4 :mask-triangle-4})
+
+(def mask-half->cls
+  {::half-1 :mask-half-1
+   ::half-2 :mask-half-2})
+
+(defn mask-class
+  "Generate mask classes for an element with given shape and optional half modifier."
+  [{::keys [shape half] :as attrs}]
+  (cn :mask (:class attrs)
+      (mask-shape->cls shape)
+      (mask-half->cls half)))
+
+;; Avatar
+
+(def avatar-size->cls
+  {::xs "w-6"
+   ::sm "w-8"
+   ::md "w-12"
+   ::lg "w-16"
+   ::xl "w-20"})
+
+(def avatar-status->cls
+  {::online :avatar-online
+   ::offline :avatar-offline})
+
+(defalias avatar
+  "Avatar component for displaying user profile images.
+   See https://daisyui.com/components/avatar/"
+  [{::keys [size status]
+    :keys [src alt inner-class class]:as props} children]
+  (let [avatar-class (cn :avatar class props
+                         (avatar-status->cls status))
+        img-class (cn (avatar-size->cls size) inner-class)]
+
+    [:div (-> (dissoc props :src :alt ::size :inner-class :class ::status)
+              (assoc :class avatar-class))
+     (if children
+       children
+       (when src
+         [:div {:class img-class}
+          [:img {:src src
+                 :alt (or alt "Avatar")}]]))]))
