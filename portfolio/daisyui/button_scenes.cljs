@@ -153,11 +153,9 @@
   :title "Button shapes"
   (scene-container
    [::ui/btn {::ui/shape ::ui/circle}
-    [::ui/icon {:icon/name :user
-                :icon/size :sm}]]
+    email-icon]
    [::ui/btn {::ui/shape ::ui/square}
-    [::ui/icon {:icon/name :user
-                :icon/size :sm}]]))
+    email-icon]))
 
 (defscene brand-login-buttons
   :title "Brand Login Buttons"

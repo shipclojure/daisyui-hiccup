@@ -35,7 +35,7 @@
     :as attrs
     :or {size ::md
          variant ::spinner}} _]
-  (let [classes (cn "loading" (:class attrs)
+  (let [classes (cn :loading (:class attrs)
                     (size->loading-cls size)
                     (color->text-color-cls color)
                     (loading-variant->cls variant))]
@@ -83,25 +83,25 @@
             full-width? glass responsive? disabled? active?
             wide? loading? color]
     :as attrs}]
-  (cn "btn" (:class attrs)
+  (cn :btn (:class attrs)
       (size->btn-cls size)
       (btn-shape->cls shape)
       (btn-variant->cls variant)
       (btn-color->cls color)
       (when wide?
-        "btn-wide")
+        :btn-wide)
       (when glass
-        "glass")
+        :glass)
       (when full-width?
-        "btn-block")
+        :btn-block)
       (when active?
-        "btn-active")
+        :btn-active)
       (when disabled?
-        "btn-disabled")
+        :btn-disabled)
       (when responsive?
         "btn-xs sm:btn-sm md:btn-md lg:btn-lg")
       (when (or (and start-icon (not loading?)) end-icon)
-        "gap-2")))
+        :gap-2)))
 
 (defalias btn
   [{::keys [loading? start-icon end-icon size] :as attrs} base-children]
@@ -113,20 +113,44 @@
         void-element? (void-element-list tag)
         children (when-not void-element?
                    (->> (into [(when loading? [::loading (cond-> {}
-                                                             size (assoc ::size size))])
+                                                           size (assoc ::size size))])
                                (when (and start-icon (not loading?)) start-icon)]
                               (into base-children end-icon))
                         (remove nil?)))]
     (into [tag (assoc rest :class classes)]
           children)))
 
+(def input-color->cls
+  {::neutral :input-neutral
+   ::primary :input-primary
+   ::secondary :input-secondary
+   ::accent :input-accent
+   ::info :input-info
+   ::success :input-success
+   ::warning :input-warning
+   ::error :input-error})
+
+(def input-variant->cls
+  {::ghost :input-ghost})
+
 (def input-size->cls
   {::xs :input-xs
    ::sm :input-sm
    ::md :input-md
-   ::lg :input-lg})
+   ::lg :input-lg
+   ::xl :input-xl})
+
+(defn- input-classes
+  "Compute classes for input component based on props."
+  [{::keys [size color variant] :as attrs}]
+  (cn :input (:class attrs)
+      (input-size->cls size)
+      (input-color->cls color)
+      (input-variant->cls variant)))
 
 (defalias input
-  [{::keys [ghost? size color disabled?] :as attrs} _]
-  (let [])
-)
+  [attrs _]
+  (let [rest (dissoc attrs :class ::size ::color ::variant ::disabled? ::required?)
+        classes (input-classes attrs)]
+    [:input (cond-> (assoc rest :class classes)
+                (::disabled? attrs) (assoc :disabled true))]))
