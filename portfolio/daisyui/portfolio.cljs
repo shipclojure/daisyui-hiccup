@@ -1,5 +1,7 @@
 (ns daisyui.portfolio
-  (:require [portfolio.ui :as portfolio]))
+  (:require [daisyui.core]
+            [daisyui.loading-scenes]
+            [portfolio.ui :as portfolio]))
 
 (portfolio/start!
  {:config
