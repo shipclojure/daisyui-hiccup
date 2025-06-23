@@ -1,5 +1,6 @@
 (ns daisyui.portfolio
   (:require [daisyui.avatar-scenes]
+            [daisyui.badge-scenes]
             [daisyui.button-scenes]
             [daisyui.core]
             [daisyui.dropdown-scenes]

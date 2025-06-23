@@ -306,3 +306,41 @@
          [:div {:class img-class}
           [:img {:src src
                  :alt (or alt "Avatar")}]]))]))
+
+;; Badge
+
+(def badge-color->cls
+  {::primary :badge-primary
+   ::secondary :badge-secondary
+   ::neutral :badge-neutral
+   ::accent :badge-accent
+   ::info :badge-info
+   ::error :badge-error
+   ::success :badge-success
+   ::warning :badge-warning
+   ::ghost :badge-ghost})
+
+(def badge-variant->cls
+  {::soft :badge-soft
+   ::outline :badge-outline
+   ::dash :badge-dash})
+
+(def badge-size->cls
+  {::xs :badge-xs
+   ::sm :badge-sm
+   ::md :badge-md
+   ::lg :badge-lg
+   ::xl :badge-xl})
+
+(defalias badge
+  "Badge component for labels and status indicators.
+   See https://daisyui.com/components/badge/"
+  [{::keys [variant color size] :as props} children]
+  (let [badge-class (cn :badge (:class props)
+                        (badge-color->cls color)
+                        (badge-variant->cls variant)
+                        (badge-size->cls size))]
+
+    [:span (-> (dissoc props ::variant ::color ::size :class)
+               (assoc :class badge-class))
+     children]))
