@@ -120,6 +120,8 @@
     (into [tag (assoc rest :class classes)]
           children)))
 
+;; Input
+
 (def input-color->cls
   {::neutral :input-neutral
    ::primary :input-primary
@@ -154,3 +156,92 @@
         classes (input-classes attrs)]
     [:input (cond-> (assoc rest :class classes)
                 (::disabled? attrs) (assoc :disabled true))]))
+
+;; Dropdown
+
+(def dropdown-position->cls
+  {::top :dropdown-top
+   ::bottom :dropdown-bottom
+   ::left :dropdown-left
+   ::right :dropdown-right
+   ::start :dropdown-start
+   ::end :dropdown-end
+   ::center :dropdown-center})
+
+(defalias dropdown
+  "Dropdown container that can open a menu or any other element when clicked.
+   Three methods available:
+   1. details/summary (use dropdown-details)
+   2. popover API (use with popover props)
+   3. CSS focus (default)
+
+   See https://daisyui.com/components/dropdown/"
+  [{::keys [position alignment hover? open?] :as attr} children]
+  (let [dropdown-class (cn :dropdown (:class attr)
+                           (dropdown-position->cls position)
+                           (dropdown-position->cls alignment)
+                           (when hover? :dropdown-hover)
+                           (when open? :dropdown-open))]
+
+    [:div (-> (dissoc attr ::position ::alignment ::hover? ::open?)
+              (assoc :class dropdown-class))
+     children]))
+
+(defalias dropdown-trigger
+  "Trigger element for dropdown. Can be a button or any other element.
+   Uses tabindex and role=button for accessibility."
+  [attr children]
+  [:div (merge {:tabIndex 0
+                :role "button"}
+               attr)
+   children])
+
+(defn render-ui-dropdown-content
+  [attr children]
+  [:ul (-> {:tabIndex 0}
+           (merge attr)
+           (assoc :class (cn "dropdown-content z-1" (:class attr))))
+   children])
+
+(defalias dropdown-content
+  "Content container for dropdown items.
+   Can contain menu items, cards, or any other content."
+  [attr children]
+  (render-ui-dropdown-content attr children))
+
+(defalias dropdown-menu
+  "Menu-styled dropdown content container."
+  [{:keys [class]} children]
+  (render-ui-dropdown-content
+   {:class (cn "menu p-2 shadow-lg bg-base-100 rounded-box" class)
+    :role "menu"}
+   children))
+
+(defalias dropdown-item
+  "Individual item in a dropdown menu."
+  [{::keys [active? disabled?] :as attr} children]
+  [:li (-> (dissoc attr :class ::active? ::disabled?)
+           (assoc :class (cn (:class attr)
+                             (when active? "active")
+                             (when disabled? "disabled"))))
+   children])
+
+;; Alternative implementation using details/summary
+(defalias dropdown-details
+  "Alternative dropdown implementation using HTML details/summary elements.
+   Provides native open/close functionality."
+  [{::keys [position alignment open?] :as attrs} children]
+  (let [details-class (cn :dropdown (:class attrs)
+                          (dropdown-position->cls position)
+                          (dropdown-position->cls alignment))]
+
+    [:details (-> (dissoc attrs ::alignment ::position ::open?)
+                  {:class details-class
+                   :open open?})
+     children]))
+
+(defalias dropdown-summary
+  "Summary element for dropdown-details. Acts as the trigger."
+  [props children]
+  [:summary props
+   children])
