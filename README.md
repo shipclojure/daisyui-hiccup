@@ -11,7 +11,7 @@ A comprehensive ClojureScript component library providing Replicant wrapper comp
 
 [::ui/button {::ui/color ::ui/primary}
     "Hello world"
-    [::ui/badge "+99 messages"]
+    [::ui/badge "+99 messages"]]
     
 [::ui/dropdown {::ui/alignment ::ui/end}
   [::ui/dropdown-trigger.btn.btn-ghost.rounded-field "Dropdown"]
