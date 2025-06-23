@@ -42,3 +42,91 @@
 
     [:span (merge {:class classes}
                   (dissoc attrs ::size ::variant ::color))]))
+
+;; Button
+
+(def void-element-list #{:area :base :br :col :embed :hr
+                         :img :input :link :keygen :meta :param :source
+                         :track, :wbr})
+
+(def btn-variant->cls
+  {::outline :btn-outline
+   ::link :btn-link
+   ::soft :btn-soft
+   ::dash :btn-dash
+   ::active :btn-active})
+
+(def btn-shape->cls
+  {::circle :btn-circle
+   ::square :btn-square})
+
+(def btn-color->cls
+  {::primary :btn-primary
+   ::secondary :btn-secondary
+   ::neutral :btn-neutral
+   ::accent :btn-accent
+   ::info :btn-info
+   ::error :btn-error
+   ::success :btn-success
+   ::warning :btn-warning
+   ::ghost :btn-ghost})
+
+(def size->btn-cls
+  {::xs :btn-xs
+   ::sm :btn-sm
+   ::md :btn-md
+   ::lg :btn-lg})
+
+(defn- btn-classes
+  "Compute classes for button component based on props."
+  [{::keys [shape size variant start-icon end-icon
+            full-width? glass responsive? disabled? active?
+            wide? loading? color]
+    :as attrs}]
+  (cn "btn" (:class attrs)
+      (size->btn-cls size)
+      (btn-shape->cls shape)
+      (btn-variant->cls variant)
+      (btn-color->cls color)
+      (when wide?
+        "btn-wide")
+      (when glass
+        "glass")
+      (when full-width?
+        "btn-block")
+      (when active?
+        "btn-active")
+      (when disabled?
+        "btn-disabled")
+      (when responsive?
+        "btn-xs sm:btn-sm md:btn-md lg:btn-lg")
+      (when (or (and start-icon (not loading?)) end-icon)
+        "gap-2")))
+
+(defalias btn
+  [{::keys [loading? start-icon end-icon size] :as attrs} base-children]
+  (let [rest (dissoc attrs :class ::shape ::size ::variant ::start-icon ::end-icon
+                     ::full-width? ::glass ::responsive ::disabled? ::active?
+                     ::wide? ::loading? ::color ::tag)
+        tag (::tag attrs :button)
+        classes (btn-classes attrs)
+        void-element? (void-element-list tag)
+        children (when-not void-element?
+                   (->> (into [(when loading? [::loading (cond-> {}
+                                                             size (assoc ::size size))])
+                               (when (and start-icon (not loading?)) start-icon)]
+                              (into base-children end-icon))
+                        (remove nil?)))]
+    (into [tag (assoc rest :class classes)]
+          children)))
+
+(def input-size->cls
+  {::xs :input-xs
+   ::sm :input-sm
+   ::md :input-md
+   ::lg :input-lg})
+
+(defalias input
+  [{::keys [ghost? size color disabled?] :as attrs} _]
+  (let [])
+)

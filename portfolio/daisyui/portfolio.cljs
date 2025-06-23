@@ -1,5 +1,6 @@
 (ns daisyui.portfolio
-  (:require [daisyui.core]
+  (:require [daisyui.button-scenes]
+            [daisyui.core]
             [daisyui.loading-scenes]
             [portfolio.ui :as portfolio]))
 

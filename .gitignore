@@ -6,3 +6,4 @@ resources/public/css/compiled.css
 /.shadow-cljs/
 /portfolio/resources/public/js/
 /.nrepl-port
+/PROJECT_SUMMARY.md
