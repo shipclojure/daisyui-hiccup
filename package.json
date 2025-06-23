@@ -1,0 +1,15 @@
+{
+  "name": "replicant-daisyui",
+  "version": "1.0.0",
+  "description": "Replicant wrapper components around daisyui",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "daisyui": "^5.0.43",
+    "tailwindcss": "^4.1.10"
+  }
+}
