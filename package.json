@@ -4,12 +4,18 @@
   "description": "Replicant wrapper components around daisyui",
   "main": "index.js",
   "scripts": {
+    "css:watch": "npx @tailwindcss/cli -i src/main.css -o resources/public/css/compiled.css --watch",
+    "shadow:watch": "shadow-cljs watch portfolio",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "daisyui": "^5.0.43",
+    "shadow-cljs": "^3.1.7",
     "tailwindcss": "^4.1.10"
+  },
+  "dependencies": {
+    "snabbdom": "3.5.1"
   }
 }

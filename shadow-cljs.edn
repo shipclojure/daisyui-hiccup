@@ -1,0 +1,9 @@
+{:deps {:aliases [:dev]}
+ :dev-http
+ {8080 ["portfolio/resources/public" "resources/public/css" "classpath:public"]}
+ :nrepl {:port 7002}
+ :builds
+ {:portfolio {:target :browser
+              :modules {:scenes {:init-fn daisyui.portfolio/init}}
+              :output-dir "portfolio/resources/public/js"
+              :asset-path "/js"}}}
