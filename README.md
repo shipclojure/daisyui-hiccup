@@ -4,7 +4,7 @@ A comprehensive ClojureScript component library providing Replicant wrapper comp
 
 ### Pre-reqs 
 
-1. Tailwind & daisyUI configured.
+1. Tailwind 4 & daisyUI 5 configured in your project
 
 ## Quick Start
 
@@ -15,7 +15,7 @@ com.shipclojure/replicant-daisyui {:git/url "https://github.com/shipclojure/dais
 
 ```
 
-2. Tell tailwind about `replicant-daisyui` sources for CSS JIT compoler 
+2. Tell tailwind about `replicant-daisyui` sources for CSS JIT compiler 
 
 In your `main.css` (or whatever name you use for the tailwind config file)
 ```css
