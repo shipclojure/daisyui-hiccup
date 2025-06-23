@@ -169,7 +169,7 @@
    [:div.flex.grow.justify-end.px-2
     [:div.flex.items-stretch
      [:button.btn.btn-ghost.rounded-field "Button"]
-     [::ui/dropdown {::ui/alignment :end
+     [::ui/dropdown {::ui/alignment ::ui/end
                      ::ui/hover? true}
       [::ui/dropdown-trigger.btn.btn-ghost.rounded-field "Dropdown"]
       [::ui/dropdown-menu.mt-4.bg-base-200

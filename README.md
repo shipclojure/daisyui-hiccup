@@ -2,7 +2,25 @@
 
 A comprehensive ClojureScript component library providing Replicant wrapper components around DaisyUI CSS framework. This library provides accessible component wrappers over daisyui css classes
 
-### Pre-reqs 
+## Examples
+
+```clojure
+(ns example
+  (:require
+   [daisyui.core :as ui]))
+
+[::ui/button {::ui/color ::ui/primary}
+    "Hello world"
+    [::ui/badge "+99 messages"]
+    
+[::ui/dropdown {::ui/alignment ::ui/end}
+  [::ui/dropdown-trigger.btn.btn-ghost.rounded-field "Dropdown"]
+  [::ui/dropdown-menu.mt-4.bg-base-200
+    [::ui/dropdown-item [:a "Item 1"]]
+    [::ui/dropdown-item [:a "Item 2"]]]]
+```
+
+## Pre-reqs 
 
 1. Tailwind 4 & daisyUI 5 configured in your project
 
